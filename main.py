@@ -75,4 +75,10 @@ def hist_performance_per_department ():
 
     plt.show()
 
-hist_performance_per_department()
+def scatter_years_performance():
+    plt.scatter(result_dataFrame["years_with_company"], result_dataFrame["performance_score"])
+    plt.xlabel("Años en la compañia")
+    plt.ylabel("Rendimiento")
+    plt.show()
+
+scatter_years_performance()
