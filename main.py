@@ -1,20 +1,55 @@
 import mysql.connector as connection
 import pandas as pd
 from matplotlib import pyplot as plt
+from sqlalchemy import create_engine
+
+user = "root"
+password = ""
+host = "localhost"
 
 try:
     mydb = connection.connect(
-        host = "localhost", 
+        host = host,
+        user = user, 
+        passwd = password)
+    cursor = mydb.cursor()
+    query = "CREATE DATABASE IF NOT EXISTS companydata;"
+    cursor.execute(query)
+    mydb.close() 
+
+    mydb = connection.connect(
+        host = host,
         database = 'companydata',
-        user="root", 
-        passwd="")
+        user = user, 
+        passwd = password)
+    cursor = mydb.cursor()
+    query = '''
+CREATE TABLE IF NOT EXISTS employeeperformance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT NOT NULL,
+    department VARCHAR(255) NOT NULL,
+    performance_score DECIMAL(10, 2) NOT NULL,
+    years_with_company INT NOT NULL,
+    salary DECIMAL(10, 2) NOT NULL
+);
+'''
+    cursor.execute(query)
+    mydb.close() 
+
+    connection_query = f'mysql+mysqlconnector://{user}:{password}@{host}/companydata'
+    engine = create_engine(connection_query)
 
     query = "SELECT * FROM employeeperformance;"
-    result_dataFrame = pd.read_sql(query, mydb)
 
-    mydb.close() #close the connection
+    result_dataFrame = pd.read_sql(query, con=engine)
+
+    if (len(result_dataFrame) == 0):
+        data = pd.read_csv("data.csv")
+
+        data.to_sql('employeeperformance', con=engine, if_exists='append', index=False)
+
+        result_dataFrame = pd.read_sql(query, con=engine)
 except Exception as e:
-    mydb.close()
     print(str(e))
 
 def total_employees_per_department ():
