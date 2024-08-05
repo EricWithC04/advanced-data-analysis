@@ -56,4 +56,13 @@ def correlation_year_performance():
     
     return correlation.groupby(by="department").corr()["years_with_company"].unstack()["performance_score"]
 
-print(correlation_year_performance())
+def correlation_salary_performance():
+    correlation = pd.DataFrame()
+
+    correlation["department"] = result_dataFrame["department"]
+    correlation["salary"] = result_dataFrame["salary"]
+    correlation["performance_score"] = result_dataFrame["performance_score"]
+    
+    return correlation.groupby(by="department").corr()["salary"].unstack()["performance_score"]
+
+print(correlation_salary_performance())
