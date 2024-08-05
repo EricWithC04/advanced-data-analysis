@@ -47,4 +47,13 @@ def mean_median_std_salary ():
         "std": s_std, # Desviación Estandar
     }
 
-print(mean_median_std_salary())
+def correlation_year_performance():
+    correlation = pd.DataFrame()
+
+    correlation["department"] = result_dataFrame["department"]
+    correlation["years_with_company"] = result_dataFrame["years_with_company"]
+    correlation["performance_score"] = result_dataFrame["performance_score"]
+    
+    return correlation.groupby(by="department").corr()["years_with_company"].unstack()["performance_score"]
+
+print(correlation_year_performance())
