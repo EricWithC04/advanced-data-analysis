@@ -33,3 +33,18 @@ def mean_median_std_performance_score ():
         "median": ps_median, # Mediana
         "std": ps_std, # Desviación Estandar
     }
+
+def mean_median_std_salary ():
+    groupby_department = result_dataFrame.groupby(by="department")
+
+    s_mean = groupby_department.mean()["salary"]
+    s_median = groupby_department.median()["salary"]
+    s_std = groupby_department.std()["salary"]
+
+    return {
+        "mean": s_mean, # Media
+        "median": s_median, # Mediana
+        "std": s_std, # Desviación Estandar
+    }
+
+print(mean_median_std_salary())
