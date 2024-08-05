@@ -81,4 +81,8 @@ def scatter_years_performance():
     plt.ylabel("Rendimiento")
     plt.show()
 
-scatter_years_performance()
+def scatter_salary_performance():
+    plt.scatter(result_dataFrame["performance_score"], result_dataFrame["salary"])
+    plt.xlabel("Rendimiento")
+    plt.ylabel("Salario")
+    plt.show()
