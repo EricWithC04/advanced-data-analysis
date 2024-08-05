@@ -15,3 +15,8 @@ try:
 except Exception as e:
     mydb.close()
     print(str(e))
+
+def total_employees_per_department ():
+    employees_by_department = result_dataFrame.groupby(by="department").count()["employee_id"]
+
+    return employees_by_department
