@@ -1,5 +1,6 @@
 import mysql.connector as connection
 import pandas as pd
+from matplotlib import pyplot as plt
 
 try:
     mydb = connection.connect(
@@ -65,4 +66,13 @@ def correlation_salary_performance():
     
     return correlation.groupby(by="department").corr()["salary"].unstack()["performance_score"]
 
-print(correlation_salary_performance())
+def hist_performance_per_department ():
+    department_performance = result_dataFrame.groupby(by="department").mean()
+    
+    plt.bar(department_performance.index, department_performance["performance_score"])
+
+    plt.xticks(rotation=45, ha='right')
+
+    plt.show()
+
+hist_performance_per_department()
