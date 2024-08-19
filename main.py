@@ -1,29 +1,22 @@
-import mysql.connector as connection
+# import mysql.connector as connection
 import pandas as pd
 from matplotlib import pyplot as plt
 from sqlalchemy import create_engine
+from config.connection_db import ConnectionDB
 
 user = "root"
 password = ""
 host = "localhost"
 
 try:
-    mydb = connection.connect(
-        host = host,
-        user = user, 
-        passwd = password)
-    cursor = mydb.cursor()
-    query = "CREATE DATABASE IF NOT EXISTS companydata;"
-    cursor.execute(query)
-    mydb.close() 
+    mydb = ConnectionDB(user, host, password)
 
-    mydb = connection.connect(
-        host = host,
-        database = 'companydata',
-        user = user, 
-        passwd = password)
-    cursor = mydb.cursor()
-    query = '''
+    mydb.createDB("companydata")
+
+    mydb.connectDB("companydata")
+
+    mydb.executeQuery(
+'''
 CREATE TABLE IF NOT EXISTS employeeperformance (
     id INT AUTO_INCREMENT PRIMARY KEY,
     employee_id INT NOT NULL,
@@ -33,8 +26,7 @@ CREATE TABLE IF NOT EXISTS employeeperformance (
     salary DECIMAL(10, 2) NOT NULL
 );
 '''
-    cursor.execute(query)
-    mydb.close() 
+    )
 
     connection_query = f'mysql+mysqlconnector://{user}:{password}@{host}/companydata'
     engine = create_engine(connection_query)

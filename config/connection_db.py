@@ -28,5 +28,3 @@ class ConnectionDB:
     
     def close(self):
         self.db.close()
-    
-mydb = ConnectionDB("root", "localhost", "")
