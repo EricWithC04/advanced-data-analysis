@@ -23,7 +23,7 @@ class ConnectionDB:
     def connectDB(self, name):
         self.cursor.execute(f"USE {name};")
 
-    def executeQuery(self, query):
+    def execute_query(self, query):
         self.cursor.execute(query)
     
     def close(self):

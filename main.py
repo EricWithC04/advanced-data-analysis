@@ -1,8 +1,7 @@
-# import mysql.connector as connection
 import pandas as pd
 from matplotlib import pyplot as plt
-from sqlalchemy import create_engine
 from config.connection_db import ConnectionDB
+from config.alchemy_connection import AlchemyConnection
 
 user = "root"
 password = ""
@@ -15,7 +14,7 @@ try:
 
     mydb.connectDB("companydata")
 
-    mydb.executeQuery(
+    mydb.execute_query(
 '''
 CREATE TABLE IF NOT EXISTS employeeperformance (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -28,19 +27,16 @@ CREATE TABLE IF NOT EXISTS employeeperformance (
 '''
     )
 
-    connection_query = f'mysql+mysqlconnector://{user}:{password}@{host}/companydata'
-    engine = create_engine(connection_query)
+    alchemy_connect = AlchemyConnection(user, host, password)
 
-    query = "SELECT * FROM employeeperformance;"
-
-    result_dataFrame = pd.read_sql(query, con=engine)
+    result_dataFrame = alchemy_connect.get_employees_pd()
 
     if (len(result_dataFrame) == 0):
         data = pd.read_csv("data.csv")
 
-        data.to_sql('employeeperformance', con=engine, if_exists='append', index=False)
+        data.to_sql('employeeperformance', con=alchemy_connect.engine, if_exists='append', index=False)
 
-        result_dataFrame = pd.read_sql(query, con=engine)
+        result_dataFrame = alchemy_connect.get_employees_pd()
 except Exception as e:
     print(str(e))
 
