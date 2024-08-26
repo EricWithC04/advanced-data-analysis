@@ -19,8 +19,8 @@ password = ""
 host = "localhost"
 ```
 
-Para probar cada uno de los ejercicios, en la ultima linea escribir un `print()` dentro del cuál invocar la función correspondiente
+Para probar cada uno de los ejercicios, en la ultima linea, dentro del `print()` invocar el metodo correspondiendo de `result_dataFrame`.
 
 ```python
-print(total_employees_per_department()) # Ejemplo
+print(result_dataFrame.total_employees_per_department()) # Ejemplo
 ```
